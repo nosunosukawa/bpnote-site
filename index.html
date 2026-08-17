@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <title> を「Support」にしない。AI の引用面にも検索にも載らなくなる（他アプリで実測） -->
+<title>血圧おぼえ帳 — 診察に持っていく血圧手帳を、朝晩3秒の入力で作るアプリ</title>
+<meta name="description" content="測った値を入れるだけで、診察にそのまま持っていける血圧手帳（PDF）が作れるiPhoneアプリのサポートページ。日本高血圧学会 高血圧管理・治療ガイドライン2025の目安を併記。データは一切収集しません。">
+<style>
+  /* 配色はアプリ本体の Design/Paper.swift のトークンと同じ。
+     画面と地続きに見えることが、審査でも利用者にとっても信用になる */
+  :root{
+    --bg:#FAF7F0; --card:#FFFFFF; --ink:#2B2A28; --ink-soft:#5C5850;
+    --accent:#2F4F7F; --ok:#5B7C5A; --low:#8F6400; --high:#C0392B; --line:#D9D2C5;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#1C1A17; --card:#242119; --ink:#EDE8DE; --ink-soft:#A69F92;
+      --accent:#8CA8D4; --ok:#7FA37E; --low:#C79A3C; --high:#E06B5C; --line:#3A3630;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.7;padding:24px 20px 64px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:680px;margin:0 auto}
+
+  header{margin:20px 0 32px}
+  h1{font-size:36px;line-height:1.1;letter-spacing:-.5px;font-weight:800}
+  header p{margin-top:10px;font-size:16px;color:var(--ink-soft)}
+  .claim{display:inline-block;margin-top:16px;font-size:13px;font-weight:800;
+    letter-spacing:.4px;color:var(--accent);border:1.5px solid var(--accent);
+    border-radius:8px;padding:6px 11px}
+
+  h2{font-size:12px;letter-spacing:1.4px;color:var(--ink-soft);
+    margin:38px 0 12px;font-weight:700}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px;display:flex;gap:14px;align-items:stretch}
+  .card + .card{margin-top:10px}
+  .pad{width:5px;border-radius:2.5px;flex:none;background:var(--line)}
+  .pad.ok{background:var(--ok)} .pad.low{background:var(--low)}
+  .pad.high{background:var(--high)} .pad.accent{background:var(--accent)}
+  .body{flex:1}
+  .card h3{font-size:16px;margin-bottom:6px;letter-spacing:-.2px}
+  .card p,.card li{font-size:15px}
+  .card ul{padding-left:20px;margin-top:8px}
+  .card li{margin-top:4px}
+  .card p + p{margin-top:8px}
+  a{color:var(--accent);font-weight:600;text-decoration:none}
+  a:hover{text-decoration:underline}
+  .muted{color:var(--ink-soft);font-size:13.5px}
+  footer{margin-top:44px;text-align:center;color:var(--ink-soft);font-size:13px}
+</style>
+<meta property="og:title" content="血圧おぼえ帳 — 診察に持っていく血圧手帳">
+<meta property="og:description" content="朝晩の血圧を3秒で記録して、診察にそのまま持っていける血圧手帳（PDF）を作れます。データは一切収集しません。">
+<meta property="og:url" content="https://nosunosukawa.github.io/bpnote-site/">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://nosunosukawa.github.io/bpnote-site/">
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>血圧おぼえ帳</h1>
+    <p>朝と晩に測った血圧を、大きなテンキーで3秒で記録します。
+       たまった記録は、診察にそのまま持っていける紙の血圧手帳（PDF）になります。
+       ご家庭の血圧計で測った値を、手で書き写す代わりに入れておくための道具です。</p>
+    <span class="claim">データは一切収集しません。</span>
+  </header>
+
+  <h2 id="support">サポート</h2>
+  <div class="card">
+    <div class="pad accent"></div>
+    <div class="body">
+      <h3>連絡先</h3>
+      <p>ご質問・不具合のご報告・数値や文言の指摘はこちらへ:
+         <a href="mailto:nosunosukawa@gmail.com">nosunosukawa@gmail.com</a></p>
+      <p class="muted">個人で開発しています。全部読みます。返信は1〜2日いただくことがあります。
+         数字がおかしいと思われたときは、測った日と時間・入れた値・画面に出た値を
+         書いて送ってください。手計算と突き合わせて確認します。</p>
+    </div>
+  </div>
+
+  <h2>だいじな注意</h2>
+  <div class="card">
+    <div class="pad high"></div>
+    <div class="body">
+      <h3>このアプリは診断を行いません</h3>
+      <p>このアプリは、測った値を記録し、ガイドラインで示されている目安をお見せするものです。
+         病気を見つけたり、治し方をお伝えしたりすることはできません。
+         お医者さんの代わりにはなりません。</p>
+      <p>胸の痛み、強い頭痛、手足のしびれ、ろれつが回らないなどの症状があるときは、
+         血圧の値にかかわらず <strong>119番</strong> に電話してください。</p>
+      <p class="muted">18歳未満の方と妊娠中の方は、目安となる数値が大きく異なります。
+         このアプリの目安はあてはまりません。かかりつけの医療機関にご相談ください。</p>
+    </div>
+  </div>
+
+  <h2>よくある質問</h2>
+
+  <div class="card">
+    <div class="pad ok"></div>
+    <div class="body">
+      <h3>無料でどこまで使えますか？</h3>
+      <p><strong>記録すること、見ることは、ずっと無料です。</strong>
+         回数の制限なく記録でき、手帳の画面で全期間を見返せます。
+         高い値が出たときのお知らせ、測る時間のお知らせ、2人目の記録も無料です。</p>
+      <p>有料の「血圧おぼえ帳プラス」でできるのは、記録を<strong>持ち出すこと</strong>です。
+         診察に持っていく紙（PDF）、期間のグラフ、ご家族との共有、記録の書き出し（CSV）。
+         年ごと・月ごとのほか、買い切りも選べます。</p>
+      <p class="muted">ご自分の健康の記録を見るのに、お金を払っていただく作りにはしていません。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="pad accent"></div>
+    <div class="body">
+      <h3>血圧の目安は、どこの数字ですか？</h3>
+      <p>日本の基準は<strong>日本高血圧学会 高血圧管理・治療ガイドライン2025</strong>、
+         米国の基準は <strong>2025 AHA/ACC High Blood Pressure Guideline</strong>、
+         欧州の基準は <strong>2024 ESC ガイドライン</strong>を引用しています。
+         出典はアプリの画面にも、印刷する紙にも必ず併記されます。</p>
+      <p>アプリが独自に「危険」「異常」と判定することはありません。学会が示している
+         範囲をそのままお見せするだけです。かかりつけの先生から目標値の指示が
+         ある場合は、設定でその値を入れると、そちらが優先されます。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="pad ok"></div>
+    <div class="body">
+      <h3>診察に持っていく紙は、どうやって作りますか？</h3>
+      <p>手帳の画面の右上にある印刷のマークから「出す月」を選んで、［紙を作る］を押します。
+         そのまま［この紙を印刷する］でプリンタへ送れます。
+         プリンタが無い場合は［送る・保存する］→［ファイルに保存］で保存して、
+         コンビニのマルチコピー機で印刷できます。</p>
+      <p>紙は<strong>日本の血圧手帳の形（A4・日本語）</strong>と、
+         <strong>英語の記録用紙（US Letter）</strong>のどちらでも出せます。
+         海外の医師にかかるときは英語の紙を選んでください。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="pad low"></div>
+    <div class="body">
+      <h3>間違えて消してしまいました</h3>
+      <p>消した記録は<strong>30日間</strong>残っています。
+         <strong>設定 →［最近消したもの］</strong>から［元に戻す］を押すと、
+         もとの日と枠に戻ります。手帳と平均にも戻ります。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="pad accent"></div>
+    <div class="body">
+      <h3>お知らせが鳴りません</h3>
+      <p>iPhone の設定で、このアプリのお知らせが止められている可能性があります。
+         アプリの設定画面に「いまは iPhone の設定でお知らせが止められています」と
+         出ていれば、その下の［iPhone の設定を開く］から許可してください。</p>
+      <p class="muted">お知らせの文面に血圧の数字は出しません。ロック画面に出ても、
+         ほかの方に値が見えないようにするためです。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="pad ok"></div>
+    <div class="body">
+      <h3>夫婦2人で使えますか？</h3>
+      <p>使えます。2人目の追加は無料です。入力画面の色が人によって変わるので、
+         取り違えに気づきやすくしてあります。いつもと大きく違う値を入れたときは、
+         「別の方の記録ではありませんか？」と一度おたずねします。</p>
+      <p>それでも入れ違えたときは、記録を開いて［別の人の記録に移す］で直せます。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="pad accent"></div>
+    <div class="body">
+      <h3>買ったのに、有料の機能が使えません</h3>
+      <p>購入時と同じ Apple ID でサインインした状態で、
+         <strong>設定 →［購入済みのものを戻す］</strong>を押してください。
+         購入は Apple ID に紐づくので、機種を変えても引き継がれます。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="pad low"></div>
+    <div class="body">
+      <h3>機種を変えるときは？</h3>
+      <p>記録はこの iPhone の中だけに保存されています。機種変更の前に、
+         <strong>出力画面の［すべての記録を表計算の形で書き出す］</strong>で
+         書き出したファイルを保存しておいてください。
+         エクセルなどの表計算ソフトでそのまま開けます。</p>
+      <p class="muted">血圧の値を iCloud に置かない設計にしているため、
+         端末をまたぐ自動の同期はありません。理由は下の「収集しません」をご覧ください。</p>
+    </div>
+  </div>
+
+  <h2>収集しません</h2>
+  <div class="card">
+    <div class="pad ok"></div>
+    <div class="body">
+      <h3>血圧の記録は、この iPhone から出ません</h3>
+      <p>アクセス解析も、広告も、開発者のサーバーもありません。アカウント登録も不要です。
+         血圧の値・脈拍・測った日時が、開発者や第三者に渡ることは一切ありません。</p>
+      <p>ご家族への連絡は、高い値が出たときに<strong>ご本人がボタンを押したとき</strong>だけ、
+         iPhone のメッセージの下書きが開く形にしてあります。
+         記録がひとりでに送られる仕組みは入れていません。</p>
+      <p class="muted">くわしくは<a href="privacy.html">プライバシーポリシー</a>をご覧ください。</p>
+    </div>
+  </div>
+
+  <footer>
+    © 2026 Nobutaka Kawasaki · <a href="privacy.html">プライバシーポリシー</a>
+  </footer>
+
+</div>
+</body>
+</html>
