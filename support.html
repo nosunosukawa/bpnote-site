@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>血圧おぼえ帳 — つかい方・よくある質問・注意事項</title>
+<meta name="description" content="血圧おぼえ帳のサポートページ。家庭血圧の測り方、診察に持っていく紙の作り方、無料でできること、お値段、消した記録の戻し方、だいじな注意（診断は行いません）。お問い合わせは nosunosukawa@gmail.com へ。">
+<link rel="canonical" href="https://nosunosukawa.github.io/bpnote-site/support.html">
+<style>
+/* 配色・書体は index.html と同じ。出所はアプリ本体 BPNote/Design/Paper.swift */
+:root{
+  --paper:#FAF7F0; --rule:#D9D2C5; --ink:#2B2A28; --ink-2:#5C5850;
+  --morning:#FDF3D8; --evening:#E8EDF5;
+  --red:#C0392B; --red-ink:#C0392B; --indigo:#2F4F7F; --hair:1px;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#1C1A17; --rule:#3A3630; --ink:#EDE8DE; --ink-2:#C3BCAD;
+    --morning:#2E2A1F; --evening:#1F2530;
+    --red:#E06B5C; --red-ink:#F0A093; --indigo:#A8C0E4;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Yu Gothic Medium",
+              "Noto Sans JP",system-ui,sans-serif;
+  font-size:19px;line-height:1.9;-webkit-font-smoothing:antialiased;
+}
+.mincho{font-family:"Hiragino Mincho ProN","Toppan Bunkyu Mincho","YuMincho","Yu Mincho",
+        "Noto Serif JP",serif;font-weight:600}
+.num{font-family:ui-serif,"New York","Iowan Old Style",Georgia,serif;font-variant-numeric:tabular-nums}
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+
+a{color:var(--indigo);text-decoration:underline;text-underline-offset:3px}
+a:hover{text-decoration-thickness:2px}
+a:focus-visible{outline:3px solid var(--indigo);outline-offset:3px;border-radius:2px}
+
+.top{border-bottom:var(--hair) solid var(--rule)}
+.top .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:0 18px;
+  padding-top:6px;padding-bottom:6px}
+.brand{font-size:20px;margin-right:auto}
+.top a{display:inline-flex;align-items:center;min-height:44px;font-size:17px;
+  text-decoration:none;border-bottom:2px solid transparent}
+.top a:hover{border-bottom-color:var(--indigo)}
+
+header.page{padding:32px 0 26px;border-bottom:var(--hair) solid var(--rule)}
+h1{font-size:clamp(27px,7.5vw,36px);line-height:1.35}
+header.page p{margin-top:12px}
+
+section{border-bottom:var(--hair) solid var(--rule);padding:30px 0 34px}
+section.morning{background:var(--morning)}
+section.evening{background:var(--evening)}
+h2{font-size:clamp(23px,6vw,29px);line-height:1.45;margin-bottom:6px}
+h3{font-size:21px;line-height:1.55;margin-top:26px}
+h3:first-of-type{margin-top:16px}
+p{margin-top:12px}
+ul,ol{margin-top:12px;padding-left:1.5em}
+li{margin-top:8px}
+.small{font-size:17px;color:var(--ink-2);line-height:1.75}
+strong{font-weight:700}
+
+/* 手順・料金の表。罫だけで組む（影付きカードを並べない） */
+table{width:100%;border-collapse:collapse;margin-top:16px;font-size:18px}
+th,td{border-top:var(--hair) solid var(--rule);padding:12px 4px;text-align:left;vertical-align:top}
+th{width:8.5em;font-weight:600}
+td.n{font-family:ui-serif,"New York",Georgia,serif;font-variant-numeric:tabular-nums;
+  text-align:right;white-space:nowrap}
+
+.contact{background:var(--evening)}
+.mail{display:inline-flex;align-items:center;min-height:56px;font-size:20px;word-break:break-all}
+
+.caution{border-top:3px solid var(--red)}
+.emg{font-size:22px;font-weight:700;color:var(--red-ink);line-height:1.55;margin-top:14px}
+
+footer{padding:28px 0 56px}
+.links{display:flex;flex-direction:column;margin-bottom:20px}
+.links a{display:flex;align-items:center;min-height:56px;font-size:18px;text-decoration:none;
+  border-bottom:var(--hair) solid var(--rule);word-break:break-word}
+.links a::after{content:"›";margin-left:auto;padding-left:10px;font-size:22px;color:var(--ink-2)}
+.links a:hover{background:var(--morning)}
+.copy{font-size:16px;color:var(--ink-2)}
+
+/* 320〜420px では表を縦に積む。見出し列を固定幅のまま残すと本文が1文字ずつ折り返す */
+@media (max-width:420px){
+  th,td{display:block;width:auto;padding:0 4px}
+  th{border-top:var(--hair) solid var(--rule);padding-top:12px}
+  td{padding-bottom:12px}
+  td.n{text-align:left;font-size:21px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation:none !important;transition:none !important}
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="wrap">
+    <span class="brand mincho">血圧おぼえ帳</span>
+    <a href="index.html">はじめのページ</a>
+    <a href="privacy.html">プライバシー</a>
+  </div>
+</div>
+
+<header class="page">
+  <div class="wrap">
+    <h1 class="mincho">つかい方・よくある質問・注意事項</h1>
+    <p>血圧おぼえ帳のサポートページです。お探しのことが見つからないときは、下の連絡先へそのままお書きください。</p>
+  </div>
+</header>
+
+<main>
+
+  <!-- 審査の必須要件。スクロールせずに届く位置に置く -->
+  <section class="contact">
+    <div class="wrap">
+      <h2 class="mincho">お問い合わせ</h2>
+      <p>ご質問・不具合のご報告・数値や文言のご指摘は、こちらへお願いします。</p>
+      <p><a class="mail" href="mailto:nosunosukawa@gmail.com">nosunosukawa@gmail.com</a></p>
+      <p class="small">個人で開発しています。全部読みます。返信は1〜2日いただくことがあります。
+        数字がおかしいと思われたときは、<strong>測った日と時間・入れた値・画面に出た値</strong>を書いて送ってください。
+        手計算と突き合わせて確認します。</p>
+    </div>
+  </section>
+
+  <section id="howto" class="morning">
+    <div class="wrap">
+      <h2 class="mincho">家庭血圧の測り方</h2>
+      <p>お医者さんから「家で朝と晩に測ってください」と言われた方のために、
+        一般に案内されている測り方をまとめました。かかりつけの先生から別の指示があるときは、
+        <strong>先生の指示が優先です</strong>。</p>
+
+      <h3>朝</h3>
+      <ul>
+        <li>起きてから1時間以内に測ります。</li>
+        <li>トイレを済ませてから測ります。</li>
+        <li>朝のお薬を飲む前に測ります。</li>
+        <li>朝ごはんの前に測ります。</li>
+      </ul>
+
+      <h3>晩</h3>
+      <ul>
+        <li>寝る前に測ります。</li>
+        <li>お風呂とお酒のあとは、しばらく置いてから測ります。</li>
+      </ul>
+
+      <h3>朝と晩に共通すること</h3>
+      <ul>
+        <li>いすに腰かけて、1〜2分ほど静かにしてから測ります。</li>
+        <li>腕帯（カフ）が心臓と同じ高さになるようにします。</li>
+        <li>できるだけ長く、毎日続けて測ります。測った値はすべて残します。</li>
+      </ul>
+
+      <p class="small">アプリのお知らせは、はじめの設定で<strong>朝7時・晩9時</strong>です。設定でお好きな時間に変えられます。
+        お知らせの文面に血圧の数字は出しません。ロック画面に出ても、ほかの方に値が見えないようにするためです。</p>
+      <p class="small">参考: オムロン ヘルスケア「血圧の正しい測り方を知ろう」、
+        <a href="https://www.jpnsh.jp/">日本高血圧学会</a>。
+        測り方は医療機関によって案内が少しずつ違います。かかりつけの先生の指示に従ってください。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2 class="mincho">つかい方の順番</h2>
+      <table>
+        <tbody>
+          <tr><th>1. 入れる</th><td>アプリを開くとすぐ入力の画面です。上・下・脈の3つを大きなキーで入れて［記録する］を押します。朝か晩かは時刻から決まりますが、その場で変えられます。</td></tr>
+          <tr><th>2. 見る</th><td>［手帳］の画面に、月ごとの表ができます。朝と晩が左右に並び、記録の無い枠は「—」のままです。行を押すと、その日の記録を直せます。</td></tr>
+          <tr><th>3. 渡す</th><td>［手帳］の右上にある印刷のマークから、出す月を選んで［紙を作る］。そのまま［この紙を印刷する］でプリンタへ送れます。</td></tr>
+        </tbody>
+      </table>
+      <p class="small">測り忘れた日は、入力画面の日付を押してさかのぼって入れられます（先の日付は選べません）。
+        あとから入れた記録の時刻は、朝なら7時、晩なら21時として残ります。</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2 class="mincho">よくある質問</h2>
+
+      <h3>無料でどこまで使えますか？</h3>
+      <p><strong>記録すること、見ることは、ずっと無料です。</strong>
+        回数の制限なく記録でき、手帳の画面で全期間を見返せます。
+        高い値・低い値が出たときのお知らせ、測る時間のお知らせ、2人目の記録も無料です。</p>
+      <p>有料の「血圧おぼえ帳プラス」でできるのは、記録を<strong>持ち出すこと</strong>です。
+        診察に持っていく紙（PDF）、期間のグラフ、ご家族との共有、記録の書き出し（CSV）。</p>
+      <p class="small">ご自分の健康の記録を見るのに、お金を払っていただく作りにはしていません。
+        高い値・低い値のお知らせも、お支払いのあるなしにかかわらず出ます。</p>
+
+      <h3>お値段はいくらですか？</h3>
+      <table>
+        <tbody>
+          <tr><th>1年ごと</th><td class="n">¥3,000</td></tr>
+          <tr><th>1ヶ月ごと</th><td class="n">¥480</td></tr>
+          <tr><th>買い切り</th><td class="n">¥4,800</td></tr>
+        </tbody>
+      </table>
+      <p class="small"><strong>App Store の表示が正です。</strong>
+        期間ごとのお支払いは、いつでもやめられます。やめるまで自動で更新されます。
+        買い切りは一度だけのお支払いで、更新はありません。
+        ファミリー共有に対応しているので、お子さんが買って親御さんが使うこともできます。</p>
+
+      <h3>血圧の目安は、どこの数字ですか？</h3>
+      <p>日本の基準は<strong>日本高血圧学会 高血圧管理・治療ガイドライン2025</strong>、
+        米国の基準は <strong>2025 AHA/ACC High Blood Pressure Guideline</strong>、
+        欧州の基準は <strong>2024 ESC ガイドライン</strong>を引用しています。
+        出典はアプリの画面にも、印刷する紙にも必ず併記されます。設定で切り替えられます。</p>
+      <p>アプリが独自に「危険」「異常」と判定することはありません。学会が示している範囲を、
+        そのままお見せするだけです。区分の名前も「I度高血圧<strong>の範囲</strong>」のように、
+        引用の形にしてあります。</p>
+      <p class="small">日本の基準では、家庭で測った血圧が 135/85 mmHg 以上のとき高血圧とされています。
+        手帳の画面と紙で朱色になるのは、この値を超えた記録だけです。</p>
+
+      <h3>診察に持っていく紙は、どうやって作りますか？</h3>
+      <p>手帳の画面の右上にある印刷のマークから「出す月」を選んで、［紙を作る］を押します。
+        そのまま［この紙を印刷する］でプリンタへ送れます。
+        プリンタが無い場合は［送る・保存する］→［ファイルに保存］で保存して、
+        コンビニのマルチコピー機で印刷できます。</p>
+      <p>紙は<strong>日本の血圧手帳の形（A4・日本語）</strong>と、
+        <strong>英語の記録用紙（US Letter）</strong>のどちらでも出せます。
+        海外の医師にかかるときは英語の紙を選んでください。</p>
+
+      <h3>間違えて消してしまいました</h3>
+      <p>消した記録は<strong>30日間</strong>残っています。
+        <strong>設定 →［最近消したもの］</strong>から［元に戻す］を押すと、
+        もとの日と枠に戻ります。手帳と平均にも戻ります。</p>
+
+      <h3>お知らせが鳴りません</h3>
+      <p>iPhone の設定で、このアプリのお知らせが止められている可能性があります。
+        アプリの設定画面に「いまは iPhone の設定でお知らせが止められています」と
+        出ていれば、その下の［iPhone の設定を開く］から許可してください。</p>
+
+      <h3>夫婦2人で使えますか？</h3>
+      <p>使えます。2人目の追加は無料です。入力画面の色が人によって変わるので、
+        取り違えに気づきやすくしてあります。いつもと大きく違う値を入れたときは、
+        「別の方の記録ではありませんか？」と一度おたずねします。</p>
+      <p>それでも入れちがえたときは、記録を開いて［別の人の記録に移す］で直せます。</p>
+
+      <h3>上と下を逆に入れてしまいます</h3>
+      <p>上（収縮期）より下（拡張期）のほうが大きい値になっているときは、記録の前に
+        「上と下が逆になっていませんか？」とおたずねします。［入れ替える］を押すと直ります。</p>
+
+      <h3>買ったのに、有料の機能が使えません</h3>
+      <p>購入時と同じ Apple ID でサインインした状態で、
+        <strong>設定 →［購入済みのものを戻す］</strong>を押してください。
+        購入は Apple ID に紐づくので、機種を変えても引き継がれます。</p>
+
+      <h3>機種を変えるときは？</h3>
+      <p>記録はこの iPhone の中だけに保存されています。機種変更の前に、
+        <strong>出力画面の［すべての記録を表計算の形で書き出す］</strong>で
+        書き出したファイルを保存しておいてください。
+        エクセルなどの表計算ソフトでそのまま開けます。</p>
+      <p class="small">血圧の値を iCloud に置かない設計にしているため、端末をまたぐ自動の同期はありません。
+        理由は下の「収集しません」をご覧ください。</p>
+    </div>
+  </section>
+
+  <section id="caution" class="caution">
+    <div class="wrap">
+      <h2 class="mincho">だいじな注意</h2>
+
+      <h3>このアプリは診断を行いません</h3>
+      <p>このアプリは、測った値を記録し、ガイドラインで示されている目安をお見せするものです。
+        病気を見つけたり、治し方をお伝えしたりすることはできません。
+        お医者さんの代わりにはなりません。</p>
+
+      <h3>体調が悪いときは、アプリを見ずに医療機関へ</h3>
+      <p class="emg">胸の痛み、強い頭痛、手足のしびれ、ろれつが回らないなどの症状があるときは、
+        血圧の値にかかわらず 119番 に電話してください。</p>
+
+      <h3>低い値にもご注意ください</h3>
+      <p>低めの値が出たときも、アプリはお知らせします。立ちくらみやふらつきがあるときは、
+        無理に動かず、かかりつけの先生にご相談ください。
+        お薬や治療のことは、このアプリではお答えできません。</p>
+
+      <h3>あてはまらない方</h3>
+      <p>18歳未満の方と妊娠中の方は、目安となる数値が大きく異なります。
+        このアプリの目安はあてはまりません。かかりつけの医療機関にご相談ください。</p>
+
+      <h3>血圧計について</h3>
+      <p>このアプリは iPhone で血圧を測るものではありません。
+        ご家庭の血圧計（腕帯で測るもの）で測った値を、手で書き写す代わりに入れておくための道具です。</p>
+    </div>
+  </section>
+
+  <section class="evening">
+    <div class="wrap">
+      <h2 class="mincho">収集しません</h2>
+      <p>アクセス解析も、広告も、開発者のサーバーもありません。アカウント登録も不要です。
+        血圧の値・脈拍・測った日時が、開発者や第三者に渡ることは一切ありません。</p>
+      <p>血圧の値は <strong>iCloud にも置きません</strong>。健康に関する個人情報そのものなので、
+        端末の外に出さない設計にしました。そのぶん、端末をまたぐ自動の同期はありません。</p>
+      <p>ご家族への連絡は、高い値が出たときに<strong>ご本人がボタンを押したとき</strong>だけ、
+        iPhone のメッセージの下書きが開く形にしてあります。
+        記録がひとりでに送られる仕組みは入れていません。</p>
+      <p class="small">くわしくは<a href="privacy.html">プライバシーポリシー</a>をご覧ください。</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <nav class="links">
+      <a href="index.html">はじめのページ</a>
+      <a href="mailto:nosunosukawa@gmail.com">nosunosukawa@gmail.com</a>
+      <a href="privacy.html">プライバシーポリシー</a>
+    </nav>
+    <p class="copy">© 2026 Nobutaka Kawasaki</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -3,217 +3,450 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- <title> を「Support」にしない。AI の引用面にも検索にも載らなくなる（他アプリで実測） -->
-<title>血圧おぼえ帳 — 診察に持っていく血圧手帳を、朝晩3秒の入力で作るアプリ</title>
-<meta name="description" content="測った値を入れるだけで、診察にそのまま持っていける血圧手帳（PDF）が作れるiPhoneアプリのサポートページ。日本高血圧学会 高血圧管理・治療ガイドライン2025の目安を併記。データは一切収集しません。">
-<style>
-  /* 配色はアプリ本体の Design/Paper.swift のトークンと同じ。
-     画面と地続きに見えることが、審査でも利用者にとっても信用になる */
-  :root{
-    --bg:#FAF7F0; --card:#FFFFFF; --ink:#2B2A28; --ink-soft:#5C5850;
-    --accent:#2F4F7F; --ok:#5B7C5A; --low:#8F6400; --high:#C0392B; --line:#D9D2C5;
-  }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --bg:#1C1A17; --card:#242119; --ink:#EDE8DE; --ink-soft:#A69F92;
-      --accent:#8CA8D4; --ok:#7FA37E; --low:#C79A3C; --high:#E06B5C; --line:#3A3630;
-    }
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{background:var(--bg);color:var(--ink);
-    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    line-height:1.7;padding:24px 20px 64px;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:680px;margin:0 auto}
-
-  header{margin:20px 0 32px}
-  h1{font-size:36px;line-height:1.1;letter-spacing:-.5px;font-weight:800}
-  header p{margin-top:10px;font-size:16px;color:var(--ink-soft)}
-  .claim{display:inline-block;margin-top:16px;font-size:13px;font-weight:800;
-    letter-spacing:.4px;color:var(--accent);border:1.5px solid var(--accent);
-    border-radius:8px;padding:6px 11px}
-
-  h2{font-size:12px;letter-spacing:1.4px;color:var(--ink-soft);
-    margin:38px 0 12px;font-weight:700}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
-    padding:20px;display:flex;gap:14px;align-items:stretch}
-  .card + .card{margin-top:10px}
-  .pad{width:5px;border-radius:2.5px;flex:none;background:var(--line)}
-  .pad.ok{background:var(--ok)} .pad.low{background:var(--low)}
-  .pad.high{background:var(--high)} .pad.accent{background:var(--accent)}
-  .body{flex:1}
-  .card h3{font-size:16px;margin-bottom:6px;letter-spacing:-.2px}
-  .card p,.card li{font-size:15px}
-  .card ul{padding-left:20px;margin-top:8px}
-  .card li{margin-top:4px}
-  .card p + p{margin-top:8px}
-  a{color:var(--accent);font-weight:600;text-decoration:none}
-  a:hover{text-decoration:underline}
-  .muted{color:var(--ink-soft);font-size:13.5px}
-  footer{margin-top:44px;text-align:center;color:var(--ink-soft);font-size:13px}
-</style>
+<!-- タイトルを「Support」にしない。AI の引用面にも検索にも載らなくなる（他アプリで実測） -->
+<title>血圧おぼえ帳 — 診察に持っていく血圧手帳</title>
+<meta name="description" content="朝と晩に測った血圧を入れておくと、診察にそのまま持っていける紙の血圧手帳（A4）になります。日本高血圧学会 高血圧管理・治療ガイドライン2025の目安を併記。血圧の値はiPhoneから出ません。">
 <meta property="og:title" content="血圧おぼえ帳 — 診察に持っていく血圧手帳">
 <meta property="og:description" content="朝晩の血圧を3秒で記録して、診察にそのまま持っていける血圧手帳（PDF）を作れます。データは一切収集しません。">
 <meta property="og:url" content="https://nosunosukawa.github.io/bpnote-site/">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://nosunosukawa.github.io/bpnote-site/">
+<style>
+/* ============================================================
+   血圧おぼえ帳 — LP
+   配色・角丸・罫の太さは、アプリ本体 BPNote/Design/Paper.swift の
+   トークンをそのまま持ってきている。画面と地続きに見えることが信用になる。
+   Paper.swift の禁止事項も守る:
+     グラデーション / ぼかし / 影付きカードの列 / 角丸4pt超 / 絵文字アイコン
+   階層は「罫と余白」だけで作る。
+   ============================================================ */
+:root{
+  --paper:#FAF7F0;      /* Paper.ground */
+  --rule:#D9D2C5;       /* Paper.rule */
+  --ink:#2B2A28;        /* Paper.ink */
+  --ink-2:#5C5850;      /* 薄墨。紙地に対し 6.5:1 */
+  --morning:#FDF3D8;    /* Paper.morningBand */
+  --evening:#E8EDF5;    /* Paper.eveningBand */
+  --red:#C0392B;        /* Paper.vermilion（線・帯） */
+  --red-ink:#C0392B;    /* 同（文字）。紙地に対し 5.1:1 */
+  --indigo:#2F4F7F;     /* Paper.tint(.indigo)。紙地に対し 7.7:1 */
+  --hair:1px;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#1C1A17; --rule:#3A3630; --ink:#EDE8DE;
+    /* Paper.swift の #A69F92 は暗地で 3.6:1 しか無いので、本文用に上げる */
+    --ink-2:#C3BCAD;
+    --morning:#2E2A1F; --evening:#1F2530;
+    --red:#E06B5C;
+    /* Paper.swift の #E06B5C は暗地で 2.9:1。文字だけ 4.6:1 まで上げる */
+    --red-ink:#F0A093;
+    /* Paper.swift の #8CA8D4 は暗地で 4.0:1。リンクは本文サイズなので上げる */
+    --indigo:#A8C0E4;
+  }
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  /* 本文は角ゴ。50〜80代の画面での可読性はゴシックが上 */
+  font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Yu Gothic Medium",
+              "Noto Sans JP",system-ui,sans-serif;
+  font-size:19px;
+  line-height:1.85;
+  -webkit-font-smoothing:antialiased;
+}
+/* 見出しは明朝。医院の掲示・学会・紙の手帳の見出しの語彙 */
+.mincho{
+  font-family:"Hiragino Mincho ProN","Toppan Bunkyu Mincho","YuMincho","Yu Mincho",
+              "Noto Serif JP",serif;
+  font-weight:600;
+}
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+
+a{color:var(--indigo);text-decoration:underline;text-underline-offset:3px}
+a:hover{text-decoration-thickness:2px}
+a:focus-visible{outline:3px solid var(--indigo);outline-offset:3px;border-radius:2px}
+
+/* ---- 上部の帯。App Store の必須URL（サポート・プライバシー）へ、
+       スクロールせずに届く位置に置く ---- */
+.top{border-bottom:var(--hair) solid var(--rule)}
+.top .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:0 18px;
+  padding-top:6px;padding-bottom:6px}
+.brand{font-size:20px;letter-spacing:.02em;margin-right:auto}
+.top a{display:inline-flex;align-items:center;min-height:44px;
+  font-size:17px;text-decoration:none;border-bottom:2px solid transparent}
+.top a:hover{border-bottom-color:var(--indigo)}
+
+/* ---- 節。1つの節の中身は「小さな見出し → 絵 → キャプション」 ---- */
+section{border-bottom:var(--hair) solid var(--rule);padding:30px 0 36px}
+section.morning{background:var(--morning)}
+section.evening{background:var(--evening)}
+
+/* 節の目印は 01/02/03 ではなくアプリの画面名。順番に意味は無いので連番は嘘になる */
+.eyebrow{
+  font-size:16px;font-weight:600;letter-spacing:.22em;color:var(--ink-2);
+  display:flex;align-items:center;gap:10px;margin-bottom:14px
+}
+.eyebrow::after{content:"";flex:1;height:var(--hair);background:var(--rule)}
+
+h1{font-size:clamp(30px,8.5vw,44px);line-height:1.25;letter-spacing:.01em}
+.lead{font-size:19px;margin-top:12px}
+.capline{font-size:clamp(23px,6.2vw,31px);line-height:1.4;margin-top:18px;display:block}
+.cap{font-size:18px;margin-top:8px;display:block}
+.note{font-size:17px;color:var(--ink-2);margin-top:6px;display:block;line-height:1.7}
+
+figure{margin:0}
+figure svg{display:block;width:100%;height:auto}
+.hero figure{margin-top:20px}
+
+/* ---- 図の中の描画（SVG は外側の CSS を継承する） ---- */
+.s-rule{stroke:var(--rule);stroke-width:1;fill:none}
+.s-ink{stroke:var(--ink);stroke-width:1.4;fill:none}
+.s-red{stroke:var(--red);stroke-width:2;fill:none}
+.f-paper{fill:var(--paper)}
+.f-morning{fill:var(--morning)}
+.f-evening{fill:var(--evening)}
+.f-ink{fill:var(--ink)}
+.f-ink2{fill:var(--ink-2)}
+.f-onink{fill:var(--paper)}   /* 墨地のボタンに載る文字 */
+.t{fill:var(--ink);font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN",system-ui,sans-serif}
+.t2{fill:var(--ink-2);font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN",system-ui,sans-serif}
+.tn{fill:var(--ink);font-family:ui-serif,"New York","Iowan Old Style",Georgia,serif;
+    font-variant-numeric:tabular-nums}
+.tr{fill:var(--red-ink);font-family:ui-serif,"New York","Iowan Old Style",Georgia,serif;
+    font-variant-numeric:tabular-nums}
+.tm{fill:var(--ink);font-family:"Hiragino Mincho ProN","YuMincho","Yu Mincho",serif}
+.mid{text-anchor:middle}
+.end{text-anchor:end}
+
+/* ---- だいじなこと（免責）。朱の罫で囲む。弱めない ---- */
+.caution{border-top:3px solid var(--red);border-bottom:var(--hair) solid var(--rule);
+  padding:28px 0 32px}
+.caution h2{font-size:26px;line-height:1.4}
+.caution p{font-size:18px;margin-top:12px}
+.emg{font-size:22px;font-weight:700;color:var(--red-ink);line-height:1.5}
+
+/* ---- フッタ。連絡先とプライバシーは必ずここにも置く ---- */
+footer{padding:28px 0 56px}
+.links{display:flex;flex-direction:column;gap:0;margin-bottom:20px}
+.links a{display:flex;align-items:center;min-height:56px;font-size:18px;
+  text-decoration:none;border-bottom:var(--hair) solid var(--rule);word-break:break-word}
+.links a::after{content:"›";margin-left:auto;padding-left:10px;font-size:22px;color:var(--ink-2)}
+.links a:hover{background:var(--morning)}
+.copy{font-size:16px;color:var(--ink-2)}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+}
+</style>
 </head>
 <body>
-<div class="wrap">
 
-  <header>
-    <h1>血圧おぼえ帳</h1>
-    <p>朝と晩に測った血圧を、大きなテンキーで3秒で記録します。
-       たまった記録は、診察にそのまま持っていける紙の血圧手帳（PDF）になります。
-       ご家庭の血圧計で測った値を、手で書き写す代わりに入れておくための道具です。</p>
-    <span class="claim">データは一切収集しません。</span>
-  </header>
-
-  <h2 id="support">サポート</h2>
-  <div class="card">
-    <div class="pad accent"></div>
-    <div class="body">
-      <h3>連絡先</h3>
-      <p>ご質問・不具合のご報告・数値や文言の指摘はこちらへ:
-         <a href="mailto:nosunosukawa@gmail.com">nosunosukawa@gmail.com</a></p>
-      <p class="muted">個人で開発しています。全部読みます。返信は1〜2日いただくことがあります。
-         数字がおかしいと思われたときは、測った日と時間・入れた値・画面に出た値を
-         書いて送ってください。手計算と突き合わせて確認します。</p>
-    </div>
+<div class="top">
+  <div class="wrap">
+    <span class="brand mincho">血圧おぼえ帳</span>
+    <a href="support.html">つかい方</a>
+    <a href="privacy.html">プライバシー</a>
   </div>
-
-  <h2>だいじな注意</h2>
-  <div class="card">
-    <div class="pad high"></div>
-    <div class="body">
-      <h3>このアプリは診断を行いません</h3>
-      <p>このアプリは、測った値を記録し、ガイドラインで示されている目安をお見せするものです。
-         病気を見つけたり、治し方をお伝えしたりすることはできません。
-         お医者さんの代わりにはなりません。</p>
-      <p>胸の痛み、強い頭痛、手足のしびれ、ろれつが回らないなどの症状があるときは、
-         血圧の値にかかわらず <strong>119番</strong> に電話してください。</p>
-      <p class="muted">18歳未満の方と妊娠中の方は、目安となる数値が大きく異なります。
-         このアプリの目安はあてはまりません。かかりつけの医療機関にご相談ください。</p>
-    </div>
-  </div>
-
-  <h2>よくある質問</h2>
-
-  <div class="card">
-    <div class="pad ok"></div>
-    <div class="body">
-      <h3>無料でどこまで使えますか？</h3>
-      <p><strong>記録すること、見ることは、ずっと無料です。</strong>
-         回数の制限なく記録でき、手帳の画面で全期間を見返せます。
-         高い値が出たときのお知らせ、測る時間のお知らせ、2人目の記録も無料です。</p>
-      <p>有料の「血圧おぼえ帳プラス」でできるのは、記録を<strong>持ち出すこと</strong>です。
-         診察に持っていく紙（PDF）、期間のグラフ、ご家族との共有、記録の書き出し（CSV）。
-         年ごと・月ごとのほか、買い切りも選べます。</p>
-      <p class="muted">ご自分の健康の記録を見るのに、お金を払っていただく作りにはしていません。</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="pad accent"></div>
-    <div class="body">
-      <h3>血圧の目安は、どこの数字ですか？</h3>
-      <p>日本の基準は<strong>日本高血圧学会 高血圧管理・治療ガイドライン2025</strong>、
-         米国の基準は <strong>2025 AHA/ACC High Blood Pressure Guideline</strong>、
-         欧州の基準は <strong>2024 ESC ガイドライン</strong>を引用しています。
-         出典はアプリの画面にも、印刷する紙にも必ず併記されます。</p>
-      <p>アプリが独自に「危険」「異常」と判定することはありません。学会が示している
-         範囲をそのままお見せするだけです。かかりつけの先生から目標値の指示が
-         ある場合は、設定でその値を入れると、そちらが優先されます。</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="pad ok"></div>
-    <div class="body">
-      <h3>診察に持っていく紙は、どうやって作りますか？</h3>
-      <p>手帳の画面の右上にある印刷のマークから「出す月」を選んで、［紙を作る］を押します。
-         そのまま［この紙を印刷する］でプリンタへ送れます。
-         プリンタが無い場合は［送る・保存する］→［ファイルに保存］で保存して、
-         コンビニのマルチコピー機で印刷できます。</p>
-      <p>紙は<strong>日本の血圧手帳の形（A4・日本語）</strong>と、
-         <strong>英語の記録用紙（US Letter）</strong>のどちらでも出せます。
-         海外の医師にかかるときは英語の紙を選んでください。</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="pad low"></div>
-    <div class="body">
-      <h3>間違えて消してしまいました</h3>
-      <p>消した記録は<strong>30日間</strong>残っています。
-         <strong>設定 →［最近消したもの］</strong>から［元に戻す］を押すと、
-         もとの日と枠に戻ります。手帳と平均にも戻ります。</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="pad accent"></div>
-    <div class="body">
-      <h3>お知らせが鳴りません</h3>
-      <p>iPhone の設定で、このアプリのお知らせが止められている可能性があります。
-         アプリの設定画面に「いまは iPhone の設定でお知らせが止められています」と
-         出ていれば、その下の［iPhone の設定を開く］から許可してください。</p>
-      <p class="muted">お知らせの文面に血圧の数字は出しません。ロック画面に出ても、
-         ほかの方に値が見えないようにするためです。</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="pad ok"></div>
-    <div class="body">
-      <h3>夫婦2人で使えますか？</h3>
-      <p>使えます。2人目の追加は無料です。入力画面の色が人によって変わるので、
-         取り違えに気づきやすくしてあります。いつもと大きく違う値を入れたときは、
-         「別の方の記録ではありませんか？」と一度おたずねします。</p>
-      <p>それでも入れ違えたときは、記録を開いて［別の人の記録に移す］で直せます。</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="pad accent"></div>
-    <div class="body">
-      <h3>買ったのに、有料の機能が使えません</h3>
-      <p>購入時と同じ Apple ID でサインインした状態で、
-         <strong>設定 →［購入済みのものを戻す］</strong>を押してください。
-         購入は Apple ID に紐づくので、機種を変えても引き継がれます。</p>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="pad low"></div>
-    <div class="body">
-      <h3>機種を変えるときは？</h3>
-      <p>記録はこの iPhone の中だけに保存されています。機種変更の前に、
-         <strong>出力画面の［すべての記録を表計算の形で書き出す］</strong>で
-         書き出したファイルを保存しておいてください。
-         エクセルなどの表計算ソフトでそのまま開けます。</p>
-      <p class="muted">血圧の値を iCloud に置かない設計にしているため、
-         端末をまたぐ自動の同期はありません。理由は下の「収集しません」をご覧ください。</p>
-    </div>
-  </div>
-
-  <h2>収集しません</h2>
-  <div class="card">
-    <div class="pad ok"></div>
-    <div class="body">
-      <h3>血圧の記録は、この iPhone から出ません</h3>
-      <p>アクセス解析も、広告も、開発者のサーバーもありません。アカウント登録も不要です。
-         血圧の値・脈拍・測った日時が、開発者や第三者に渡ることは一切ありません。</p>
-      <p>ご家族への連絡は、高い値が出たときに<strong>ご本人がボタンを押したとき</strong>だけ、
-         iPhone のメッセージの下書きが開く形にしてあります。
-         記録がひとりでに送られる仕組みは入れていません。</p>
-      <p class="muted">くわしくは<a href="privacy.html">プライバシーポリシー</a>をご覧ください。</p>
-    </div>
-  </div>
-
-  <footer>
-    © 2026 Nobutaka Kawasaki · <a href="privacy.html">プライバシーポリシー</a>
-  </footer>
-
 </div>
+
+<main>
+
+  <!-- ===== ヒーロー = 出口（診察に持っていく手帳）。入力画面ではない。
+       競合は全部「入力が楽」を先に見せるが、紙の手帳で挫折した人が困っているのは
+       入力ではなく提出物のほう ===== -->
+  <section class="morning hero">
+    <div class="wrap">
+      <h1 class="mincho">紙の血圧手帳と、<br>同じ形。</h1>
+      <p class="lead">朝と晩の値を入れるだけ。</p>
+
+      <figure>
+        <!-- BPNote/Views/TechoView.swift:179-212（列見出し）/ 272-345（1行）の再現。
+             朱いのは 141/88 の1つだけ。TechoView.swift:302-308
+             「診断基準を超えた値のみ朱色。全部に色を付けない」 -->
+        <svg viewBox="0 0 300 176" role="img"
+             aria-label="手帳の画面のイメージ。日付の列と、朝・晩それぞれの上下の血圧・脈・薬の列が並ぶ表。16日の朝の141と88だけが朱色で表示されている。">
+          <rect x="0" y="0" width="300" height="176" class="f-paper"/>
+          <rect x="38" y="0" width="131" height="22" class="f-morning"/>
+          <rect x="169" y="0" width="131" height="22" class="f-evening"/>
+          <text x="103" y="16" class="t mid" font-size="14" font-weight="600">朝</text>
+          <text x="234" y="16" class="t mid" font-size="14" font-weight="600">晩</text>
+
+          <text x="19"  y="37" class="t2 mid" font-size="11">日</text>
+          <text x="77"  y="37" class="t2 mid" font-size="11">上/下</text>
+          <text x="130" y="37" class="t2 mid" font-size="11">脈</text>
+          <text x="156" y="37" class="t2 mid" font-size="11">薬</text>
+          <text x="208" y="37" class="t2 mid" font-size="11">上/下</text>
+          <text x="261" y="37" class="t2 mid" font-size="11">脈</text>
+          <text x="287" y="37" class="t2 mid" font-size="11">薬</text>
+
+          <path class="s-rule" d="M0 22.5h300M0 42.5h300M0 76.5h300M0 110.5h300M0 144.5h300"/>
+
+          <text x="19" y="64" class="tn mid" font-size="15">15</text>
+          <text x="77" y="64" class="tn mid" font-size="16">128/78</text>
+          <text x="130" y="64" class="tn mid" font-size="13">66</text>
+          <text x="156" y="64" class="t2 mid" font-size="11">前</text>
+          <text x="208" y="64" class="tn mid" font-size="16">132/80</text>
+          <text x="261" y="64" class="tn mid" font-size="13">70</text>
+          <text x="287" y="64" class="t2 mid" font-size="11">後</text>
+
+          <text x="19" y="98" class="tn mid" font-size="15">16</text>
+          <text x="77" y="98" class="tr mid" font-size="16" font-weight="600">141/88</text>
+          <text x="130" y="98" class="tn mid" font-size="13">72</text>
+          <text x="156" y="98" class="t2 mid" font-size="11">前</text>
+          <text x="208" y="98" class="tn mid" font-size="16">129/79</text>
+          <text x="261" y="98" class="tn mid" font-size="13">68</text>
+          <text x="287" y="98" class="t2 mid" font-size="11">後</text>
+
+          <text x="19" y="132" class="tn mid" font-size="15">17</text>
+          <text x="77" y="132" class="t2 mid" font-size="16">—</text>
+          <text x="130" y="132" class="t2 mid" font-size="13">—</text>
+          <text x="156" y="132" class="t2 mid" font-size="11">—</text>
+          <text x="208" y="132" class="tn mid" font-size="16">126/76</text>
+          <text x="261" y="132" class="tn mid" font-size="13">64</text>
+          <text x="287" y="132" class="t2 mid" font-size="11">後</text>
+
+          <text x="6"   y="166" class="t2" font-size="12">測定した日</text>
+          <text x="294" y="166" class="tn end" font-size="14">24 / 31 日</text>
+        </svg>
+        <figcaption>
+          <span class="cap">測らなかった日は「—」。埋めません。</span>
+          <span class="note">朱いのは基準を超えた数字だけ。画面のイメージです。</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===== 入力 ===== -->
+  <section>
+    <div class="wrap">
+      <h2 class="eyebrow">入力</h2>
+      <figure>
+        <!-- BPNote/Views/EntryView.swift:306-350（日付と朝晩）/ 352-428（数値欄）/
+             430-447（記録する）と Keypad.swift:14-105（キー高さ64pt・数字34pt）の再現 -->
+        <svg viewBox="0 0 300 430" role="img"
+             aria-label="入力画面のイメージ。上が138、下が84、脈が72と大きく表示され、その下に1から0までの大きなテンキーと、記録するボタンが並ぶ。">
+          <rect x="0" y="0" width="300" height="430" class="f-paper"/>
+
+          <text x="6" y="27" class="t" font-size="15">8月18日</text>
+          <rect x="176" y="8" width="56" height="30" class="f-morning"/>
+          <rect x="176.5" y="8.5" width="55" height="29" class="s-rule"/>
+          <text x="204" y="29" class="t mid" font-size="16" font-weight="700">朝</text>
+          <rect x="240.5" y="8.5" width="55" height="29" class="s-rule"/>
+          <text x="268" y="29" class="t mid" font-size="16">晩</text>
+          <path class="s-rule" d="M0 46.5h300"/>
+
+          <!-- 選択中の欄は太枠（EntryView.swift:416-421） -->
+          <rect x="6.5" y="56.5" width="287" height="46" class="s-ink" stroke-width="2.5"/>
+          <text x="18"  y="88" class="t" font-size="21" font-weight="700">上</text>
+          <text x="284" y="93" class="tn end" font-size="34" font-weight="600">138</text>
+
+          <rect x="6.5" y="110.5" width="287" height="46" class="s-rule"/>
+          <text x="18"  y="142" class="t" font-size="19">下</text>
+          <text x="284" y="147" class="tn end" font-size="34" font-weight="600">84</text>
+
+          <rect x="6.5" y="164.5" width="287" height="46" class="s-rule"/>
+          <text x="18"  y="196" class="t" font-size="19">脈</text>
+          <text x="284" y="201" class="tn end" font-size="34" font-weight="600">72</text>
+
+          <!-- テンキーは罫だけで区切る（Keypad.swift は Rule() で組んでいる） -->
+          <path class="s-rule" d="M0 224.5h300M0 264.5h300M0 304.5h300M0 344.5h300M0 384.5h300
+                                  M100 224.5v160M200 224.5v160"/>
+          <text x="50"  y="253" class="tm mid" font-size="26" font-weight="600">1</text>
+          <text x="150" y="253" class="tm mid" font-size="26" font-weight="600">2</text>
+          <text x="250" y="253" class="tm mid" font-size="26" font-weight="600">3</text>
+          <text x="50"  y="293" class="tm mid" font-size="26" font-weight="600">4</text>
+          <text x="150" y="293" class="tm mid" font-size="26" font-weight="600">5</text>
+          <text x="250" y="293" class="tm mid" font-size="26" font-weight="600">6</text>
+          <text x="50"  y="333" class="tm mid" font-size="26" font-weight="600">7</text>
+          <text x="150" y="333" class="tm mid" font-size="26" font-weight="600">8</text>
+          <text x="250" y="333" class="tm mid" font-size="26" font-weight="600">9</text>
+          <text x="50"  y="373" class="tm mid" font-size="19" font-weight="600">消</text>
+          <text x="150" y="373" class="tm mid" font-size="26" font-weight="600">0</text>
+          <text x="250" y="373" class="tm mid" font-size="19" font-weight="600">次へ</text>
+
+          <rect x="0" y="385" width="300" height="45" class="f-ink"/>
+          <text x="150" y="415" class="mid f-onink" font-size="20" font-weight="700"
+                font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN',system-ui,sans-serif">記録する</text>
+        </svg>
+        <figcaption>
+          <span class="capline mincho">上・下・脈。押すだけ。</span>
+          <span class="cap">キーは指の腹より大きく。</span>
+          <span class="note">上下の入れちがいは一度おたずねします。画面のイメージです。</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===== 紙 ===== -->
+  <section>
+    <div class="wrap">
+      <h2 class="eyebrow">紙</h2>
+      <figure>
+        <!-- BPNote/Views/ExportView.swift:82-188 と Export/PDFTemplate.swift の再現 -->
+        <svg viewBox="0 0 300 250" role="img"
+             aria-label="出力する紙のイメージ。A4の用紙に血圧手帳という見出しと2026年8月の文字があり、日・朝・晩の列を持つ表と、家庭血圧計による自己測定値ですという但し書きが印刷されている。">
+          <rect x="0" y="0" width="300" height="250" class="f-paper"/>
+          <rect x="60.5" y="6.5" width="179" height="237" class="s-rule"/>
+
+          <text x="72" y="34" class="tm" font-size="17" font-weight="600">血圧手帳</text>
+          <text x="228" y="34" class="tn end" font-size="12">2026年8月</text>
+          <path class="s-rule" d="M70 42.5h160"/>
+
+          <rect x="106" y="48" width="62" height="14" class="f-morning"/>
+          <rect x="168" y="48" width="62" height="14" class="f-evening"/>
+          <text x="78"  y="59" class="t2" font-size="10">日</text>
+          <text x="137" y="59" class="t2 mid" font-size="10">朝</text>
+          <text x="199" y="59" class="t2 mid" font-size="10">晩</text>
+          <path class="s-rule" d="M70 62.5h160M70 76.5h160M70 90.5h160M70 104.5h160M70 118.5h160
+                                  M70 132.5h160M70 146.5h160M70 160.5h160M70 174.5h160M70 188.5h160
+                                  M70 202.5h160M106 62.5v140M168 62.5v140"/>
+          <!-- 印字された数字の見立て。文字を描かずに帯で表す -->
+          <g class="f-ink2" opacity=".5">
+            <rect x="76" y="67" width="12" height="4"/><rect x="115" y="67" width="44" height="4"/><rect x="177" y="67" width="44" height="4"/>
+            <rect x="76" y="81" width="12" height="4"/><rect x="115" y="81" width="44" height="4"/><rect x="177" y="81" width="44" height="4"/>
+            <rect x="76" y="95" width="12" height="4"/><rect x="115" y="95" width="44" height="4"/><rect x="177" y="95" width="44" height="4"/>
+            <rect x="76" y="109" width="12" height="4"/><rect x="115" y="109" width="44" height="4"/><rect x="177" y="109" width="44" height="4"/>
+            <rect x="76" y="123" width="12" height="4"/><rect x="115" y="123" width="44" height="4"/><rect x="177" y="123" width="44" height="4"/>
+            <rect x="76" y="137" width="12" height="4"/><rect x="115" y="137" width="44" height="4"/><rect x="177" y="137" width="44" height="4"/>
+            <rect x="76" y="151" width="12" height="4"/><rect x="115" y="151" width="44" height="4"/><rect x="177" y="151" width="44" height="4"/>
+            <rect x="76" y="165" width="12" height="4"/><rect x="115" y="165" width="44" height="4"/><rect x="177" y="165" width="44" height="4"/>
+            <rect x="76" y="179" width="12" height="4"/><rect x="115" y="179" width="44" height="4"/><rect x="177" y="179" width="44" height="4"/>
+            <rect x="76" y="193" width="12" height="4"/><rect x="115" y="193" width="44" height="4"/><rect x="177" y="193" width="44" height="4"/>
+          </g>
+          <text x="70" y="218" class="t2" font-size="8">家庭血圧計による自己測定値です。</text>
+          <text x="70" y="230" class="t2" font-size="8">本アプリは診断を行いません。</text>
+        </svg>
+        <figcaption>
+          <span class="capline mincho">そのまま先生に渡せます。</span>
+          <span class="cap">月を選ぶと1枚の紙に。</span>
+          <span class="note">英語の用紙も出せます。紙のイメージです。</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===== 測り方。読者の不安2番目「測り方が合っているか分からない」への答え ===== -->
+  <section class="evening">
+    <div class="wrap">
+      <h2 class="eyebrow">測り方</h2>
+      <figure>
+        <svg viewBox="0 0 300 140" role="img"
+             aria-label="朝は起きて1時間以内、晩は寝る前に測ることを示した2枚の絵。">
+          <rect x="0" y="0" width="146" height="140" class="f-morning"/>
+          <rect x="0.5" y="0.5" width="145" height="139" class="s-rule"/>
+          <circle cx="73" cy="50" r="17" class="s-ink"/>
+          <path class="s-ink" d="M73 20v-9M73 89v9M43 50h-9M112 50h9M52 29l-6-6M94 29l6-6M52 71l-6 6M94 71l6 6"/>
+          <text x="73" y="118" class="tm mid" font-size="19" font-weight="600">朝</text>
+          <text x="73" y="134" class="t mid" font-size="12">起きて1時間以内</text>
+
+          <rect x="154" y="0" width="146" height="140" class="f-evening"/>
+          <rect x="154.5" y="0.5" width="145" height="139" class="s-rule"/>
+          <path class="s-ink" d="M220 31a19 19 0 1 0 14 32 23 23 0 0 1-14-32z"/>
+          <path class="s-ink" d="M246 28l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" stroke-width="1"/>
+          <text x="227" y="118" class="tm mid" font-size="19" font-weight="600">晩</text>
+          <text x="227" y="134" class="t mid" font-size="12">寝る前</text>
+        </svg>
+        <figcaption>
+          <span class="capline mincho">朝と晩、決まった時間に。</span>
+          <span class="cap">座って少し休んでから。お知らせは朝7時・晩9時。</span>
+          <span class="note"><a href="support.html#howto">くわしい測り方</a></span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===== 目安 ===== -->
+  <section>
+    <div class="wrap">
+      <h2 class="eyebrow">目安</h2>
+      <figure>
+        <!-- BPStandard.swift:126-151 の JP 区分をそのまま写した。
+             上の血圧のみ。アプリに無い判定は足していない -->
+        <svg viewBox="0 0 300 262" role="img"
+             aria-label="上の血圧のものさし。下から、114以下が正常、115から124が正常高値、125から134が高値、135から144がI度高血圧、145から159がII度高血圧、160以上がIII度高血圧。135のところに朱色の線が引かれている。">
+          <rect x="0" y="0" width="300" height="262" class="f-paper"/>
+          <text x="6" y="13" class="t2" font-size="13">上の血圧（mmHg）</text>
+
+          <path class="s-rule" d="M52 20.5h242M52 66.5h242M52 112.5h242M52 173.5h242M52 204.5h242M52 250.5h242"/>
+          <!-- 診断基準 135。手帳が朱にする境目 -->
+          <path class="s-red" d="M52 142.5h242"/>
+
+          <g class="tn end" font-size="13">
+            <text x="44" y="71">160</text>
+            <text x="44" y="117">145</text>
+            <text x="44" y="178">125</text>
+            <text x="44" y="209">115</text>
+          </g>
+          <text x="44" y="147" class="tr end" font-size="14" font-weight="600">135</text>
+
+          <g class="t" font-size="14">
+            <text x="60" y="48">III度高血圧</text>
+            <text x="60" y="94">II度高血圧</text>
+            <text x="60" y="132">I度高血圧</text>
+            <text x="60" y="163">高値</text>
+            <text x="60" y="194">正常高値</text>
+            <text x="60" y="232">正常</text>
+          </g>
+          <text x="290" y="136" class="t2 end" font-size="12">ここから朱色</text>
+        </svg>
+        <figcaption>
+          <span class="capline mincho">学会の数字を、そのまま。</span>
+          <span class="cap">アプリが「危険」と決めることはありません。</span>
+          <span class="note">上の血圧の区分。出典: 日本高血圧学会 高血圧管理・治療ガイドライン2025</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===== しまい方 ===== -->
+  <section>
+    <div class="wrap">
+      <h2 class="eyebrow">しまい方</h2>
+      <figure>
+        <svg viewBox="0 0 300 140" role="img"
+             aria-label="iPhoneの中に鍵がかかっている絵。左右へ出ていこうとする矢印にはバツ印が付いている。">
+          <rect x="0" y="0" width="300" height="140" class="f-paper"/>
+          <rect x="120.5" y="12.5" width="59" height="112" rx="3" class="s-ink"/>
+          <path class="s-ink" d="M140 20h20"/>
+          <path class="s-ink" d="M141 76v-10a9 9 0 0 1 18 0v10"/>
+          <rect x="136.5" y="76.5" width="27" height="22" rx="2" class="s-ink"/>
+          <path class="s-rule" d="M110 68H68M190 68h42" stroke-dasharray="4 4" stroke-width="1.5"/>
+          <path class="s-ink" d="M46 60l14 14M60 60l-14 14M240 60l14 14M254 60l-14 14"/>
+        </svg>
+        <figcaption>
+          <span class="capline mincho">この iPhone から出ません。</span>
+          <span class="cap">解析も広告もありません。</span>
+          <span class="note">家族への連絡は、押したときだけ下書きが開きます。</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+</main>
+
+<div class="caution">
+  <div class="wrap">
+    <h2 class="mincho">だいじなこと</h2>
+    <p>このアプリは診断を行いません。学会が示す目安をお見せするだけで、お医者さんの代わりにはなりません。</p>
+    <p class="emg">胸の痛み、強い頭痛、手足のしびれ、ろれつが回らないときは、血圧の値にかかわらず 119番 へ。</p>
+    <p>18歳未満の方と妊娠中の方には、この目安はあてはまりません。<a href="support.html#caution">全文</a></p>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <nav class="links">
+      <a href="support.html">つかい方・よくある質問</a>
+      <a href="mailto:nosunosukawa@gmail.com">nosunosukawa@gmail.com</a>
+      <a href="privacy.html">プライバシーポリシー</a>
+    </nav>
+    <p class="copy">© 2026 Nobutaka Kawasaki</p>
+  </div>
+</footer>
+
 </body>
 </html>
