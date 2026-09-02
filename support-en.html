@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BP Notebook — Help, FAQ and important notes</title>
+<meta name="description" content="Support for BP Notebook: how to measure at home, how to make the sheet for your doctor, prices, restoring purchases, and what the app does not do.">
+<link rel="canonical" href="https://nosunosukawa.github.io/bpnote-site/support-en.html">
+<style>
+/* 配色・書体は index.html と同じ。出所はアプリ本体 BPNote/Design/Paper.swift */
+:root{
+  --paper:#FAF7F0; --rule:#D9D2C5; --ink:#2B2A28; --ink-2:#5C5850;
+  --morning:#FDF3D8; --evening:#E8EDF5;
+  --red:#C0392B; --red-ink:#C0392B; --indigo:#2F4F7F; --hair:1px;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#1C1A17; --rule:#3A3630; --ink:#EDE8DE; --ink-2:#C3BCAD;
+    --morning:#2E2A1F; --evening:#1F2530;
+    --red:#E06B5C; --red-ink:#F0A093; --indigo:#A8C0E4;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Yu Gothic Medium",
+              "Noto Sans JP",system-ui,sans-serif;
+  font-size:19px;line-height:1.9;-webkit-font-smoothing:antialiased;
+}
+.mincho{font-family:"Hiragino Mincho ProN","Toppan Bunkyu Mincho","YuMincho","Yu Mincho",
+        "Noto Serif JP",serif;font-weight:600}
+.num{font-family:ui-serif,"New York","Iowan Old Style",Georgia,serif;font-variant-numeric:tabular-nums}
+.wrap{max-width:640px;margin:0 auto;padding:0 20px}
+
+a{color:var(--indigo);text-decoration:underline;text-underline-offset:3px}
+a:hover{text-decoration-thickness:2px}
+a:focus-visible{outline:3px solid var(--indigo);outline-offset:3px;border-radius:2px}
+
+.top{border-bottom:var(--hair) solid var(--rule)}
+.top .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:0 18px;
+  padding-top:6px;padding-bottom:6px}
+.brand{font-size:20px;margin-right:auto}
+.top a{display:inline-flex;align-items:center;min-height:44px;font-size:17px;
+  text-decoration:none;border-bottom:2px solid transparent}
+.top a:hover{border-bottom-color:var(--indigo)}
+
+header.page{padding:32px 0 26px;border-bottom:var(--hair) solid var(--rule)}
+h1{font-size:clamp(27px,7.5vw,36px);line-height:1.35}
+header.page p{margin-top:12px}
+
+section{border-bottom:var(--hair) solid var(--rule);padding:30px 0 34px}
+section.morning{background:var(--morning)}
+section.evening{background:var(--evening)}
+h2{font-size:clamp(23px,6vw,29px);line-height:1.45;margin-bottom:6px}
+h3{font-size:21px;line-height:1.55;margin-top:26px}
+h3:first-of-type{margin-top:16px}
+p{margin-top:12px}
+ul,ol{margin-top:12px;padding-left:1.5em}
+li{margin-top:8px}
+.small{font-size:17px;color:var(--ink-2);line-height:1.75}
+strong{font-weight:700}
+
+/* 手順・料金の表。罫だけで組む（影付きカードを並べない） */
+table{width:100%;border-collapse:collapse;margin-top:16px;font-size:18px}
+th,td{border-top:var(--hair) solid var(--rule);padding:12px 4px;text-align:left;vertical-align:top}
+th{width:8.5em;font-weight:600}
+td.n{font-family:ui-serif,"New York",Georgia,serif;font-variant-numeric:tabular-nums;
+  text-align:right;white-space:nowrap}
+
+.contact{background:var(--evening)}
+.mail{display:inline-flex;align-items:center;min-height:56px;font-size:20px;word-break:break-all}
+
+.caution{border-top:3px solid var(--red)}
+.emg{font-size:22px;font-weight:700;color:var(--red-ink);line-height:1.55;margin-top:14px}
+
+footer{padding:28px 0 56px}
+.links{display:flex;flex-direction:column;margin-bottom:20px}
+.links a{display:flex;align-items:center;min-height:56px;font-size:18px;text-decoration:none;
+  border-bottom:var(--hair) solid var(--rule);word-break:break-word}
+.links a::after{content:"›";margin-left:auto;padding-left:10px;font-size:22px;color:var(--ink-2)}
+.links a:hover{background:var(--morning)}
+.copy{font-size:16px;color:var(--ink-2)}
+
+/* 320〜420px では表を縦に積む。見出し列を固定幅のまま残すと本文が1文字ずつ折り返す */
+@media (max-width:420px){
+  th,td{display:block;width:auto;padding:0 4px}
+  th{border-top:var(--hair) solid var(--rule);padding-top:12px}
+  td{padding-bottom:12px}
+  td.n{text-align:left;font-size:21px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{animation:none !important;transition:none !important}
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="wrap">
+    <span class="brand mincho">BP Notebook</span>
+    <a href="index.html">日本語</a>
+    <a href="privacy-en.html">Privacy</a>
+  </div>
+</div>
+
+<header class="page">
+  <div class="wrap">
+    <h1 class="mincho">How to use · FAQ · Important notes</h1>
+    <p>Support page for BP Notebook (血圧おぼえ帳). If you cannot find what you need, write to the address below.</p>
+  </div>
+</header>
+
+<main>
+  <section class="contact"><div class="wrap">
+    <h2 class="mincho">Contact</h2>
+    <p>Questions, bug reports and corrections to numbers or wording:</p>
+    <p><a class="mail" href="mailto:nosunosukawa@gmail.com">nosunosukawa@gmail.com</a></p>
+    <p class="small">BP Notebook is made by one independent developer. Every message is read; replies can take a day or two. If a number looks wrong, please include the date and time, the values you entered and what the screen showed, so it can be checked by hand.</p>
+  </div></section>
+
+  <section id="howto" class="morning"><div class="wrap">
+    <h2 class="mincho">Measuring at home</h2>
+    <p>For people whose doctor asked them to measure at home in the morning and evening, here is the commonly recommended routine. <strong>If your doctor gave you different instructions, follow your doctor.</strong></p>
+    <h3>Morning</h3>
+    <p>Within an hour of waking, after using the bathroom, before breakfast and before any medication. Sit quietly for a minute or two first.</p>
+    <h3>Evening</h3>
+    <p>Before going to bed. Sit quietly for a minute or two first.</p>
+    <h3>Both</h3>
+    <p>Sit with your back supported, arm at heart level, cuff on bare skin. Measure twice and enter both; the app averages them. Enter the numbers your monitor shows without rounding.</p>
+  </div></section>
+
+  <section><div class="wrap">
+    <h2 class="mincho">Step by step</h2>
+    <ol>
+      <li>On the Enter tab, choose Morning or Evening, type the top number (SYS), the bottom number (DIA) and, if you like, the pulse, then tap Save.</li>
+      <li>The Notebook tab shows the month as a grid, morning and evening side by side, like the paper log.</li>
+      <li>Before an appointment, open the Notebook tab, tap the print icon, choose the months and tap "Create sheet". Print it, or save it to Files.</li>
+    </ol>
+  </div></section>
+
+  <section><div class="wrap">
+    <h2 class="mincho">FAQ</h2>
+    <h3>What is free?</h3>
+    <p>Recording and viewing are free forever: unlimited readings, the notebook for all time, high/low alerts, reminders, a second person, Apple Health sync and the widgets.</p>
+    <p>BP Notebook Plus adds ways to take your records out: the PDF sheet for your doctor, the trend chart, family sharing and CSV export. We do not charge you to look at your own health records, and the high/low alerts appear whether or not you pay.</p>
+    <h3>How much does Plus cost?</h3>
+    <p>The price shown in the App Store is the correct one for your country. The yearly plan renews automatically until you cancel it in Settings &gt; Apple Account &gt; Subscriptions. The one-time purchase is a single payment with no renewal. Family Sharing is supported.</p>
+    <h3>Where do the reference ranges come from?</h3>
+    <p>Japan: Japanese Society of Hypertension guideline 2025. United States: 2025 AHA/ACC High Blood Pressure Guideline. Europe: 2024 ESC guideline. The source is always shown next to the numbers, on screen and on the printed sheet. You choose the guideline at setup and can change it in Settings.</p>
+    <p>The app never declares a reading "dangerous" or "abnormal". It only shows the range a named guideline publishes, worded as a quotation.</p>
+    <h3>How do I make the sheet for my doctor?</h3>
+    <p>Notebook tab &gt; print icon &gt; choose the months &gt; "Create sheet". Print it directly, or "Send / Save" &gt; "Save to Files" to print elsewhere. Two layouts are available: the Japanese notebook (A4) and an English log sheet (US Letter).</p>
+    <h3>I deleted a record by mistake</h3>
+    <p>Deleted records are kept for 30 days. Settings &gt; "Recently deleted" &gt; "Restore" puts it back in its day and slot.</p>
+    <h3>Reminders do not appear</h3>
+    <p>Notifications may be turned off for the app in iPhone Settings. If the app's Settings screen says notifications are off, tap "Open iPhone Settings" there and allow them.</p>
+    <h3>Can two people use it?</h3>
+    <p>Yes. Adding a second person is free. The entry screen changes color per person, and if a value is far from someone's usual, the app asks whether it belongs to the other person. A record entered under the wrong person can be moved.</p>
+    <h3>I typed the top and bottom numbers the wrong way round</h3>
+    <p>If the bottom number is larger than the top, the app asks before saving whether they are swapped. Tap "Swap them" to fix it.</p>
+    <h3>I paid, but Plus features are locked</h3>
+    <p>Make sure you are signed in with the same Apple Account you used to buy, then tap Settings &gt; "Restore Purchases". Purchases follow your Apple Account, so they carry over to a new phone.</p>
+    <h3>Changing phones</h3>
+    <p>Records are stored only on this iPhone. Before switching, use "Export all records as a spreadsheet" on the export screen and keep the file. There is no automatic sync between devices, because we do not put blood pressure data in iCloud (see the privacy policy).</p>
+  </div></section>
+
+  <section><div class="wrap">
+    <h2 class="mincho">Important</h2>
+    <h3>This app does not diagnose</h3>
+    <p>BP Notebook records the values you measure and shows the ranges published in medical guidelines. It cannot detect illness or tell you how to treat it, and it is not a substitute for your doctor. If you feel unwell — chest pain, a severe headache, numbness, slurred speech — contact emergency services, whatever your reading is. Reference ranges do not apply to people under 18 or during pregnancy.</p>
+    <p><a href="support.html">日本語版はこちら</a></p>
+  </div></section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <nav class="links">
+      <a href="index.html">Home (日本語)</a>
+      <a href="privacy-en.html">Privacy Policy</a>
+      <a href="mailto:nosunosukawa@gmail.com">nosunosukawa@gmail.com</a>
+    </nav>
+    <p class="copy">© 2026 Nosu Works</p>
+  </div>
+</footer>
+</body>
+</html>
